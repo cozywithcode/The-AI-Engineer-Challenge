@@ -120,37 +120,37 @@ While it is a bit counter-intuitive to set things up before jumping into vibe-co
 <details>
   <summary>🌲 Running the Forest Chat Frontend (Next.js)</summary>
 
-The repo includes a Next.js chatbot UI with a peaceful forest theme. Messages are sent to your FastAPI backend at `POST /api/chat`.
+The repo includes a Next.js chatbot UI in the **`frontend/`** directory, with a peaceful forest theme. Messages are sent to your FastAPI backend at `POST /api/chat`.
 
-1. **Install frontend dependencies** (from project root):
+1. **Install frontend dependencies** (from the `frontend` directory):
    ```bash
-   npm install
+   cd frontend && npm install
    ```
 
-2. **Run the backend** (in one terminal):
+2. **Run the backend** (in one terminal, from project root):
    ```bash
    uv run uvicorn api.index:app --reload
    ```
    Backend runs at `http://localhost:8000`.
 
-3. **Run the frontend** (in another terminal):
+3. **Run the frontend** (in another terminal, from the `frontend` directory):
    ```bash
-   npm run dev
+   cd frontend && npm run dev
    ```
    Open [http://localhost:3000](http://localhost:3000).
 
-4. **Point the frontend at the backend** (when they run on different ports): create a `.env.local` in the project root with:
+4. **Point the frontend at the backend** (when they run on different ports): create a `.env.local` inside `frontend/` with:
    ```bash
    NEXT_PUBLIC_API_URL=http://localhost:8000
    ```
    Restart `npm run dev` after adding or changing this.
 
-5. **Run tests**:
+5. **Run tests** (from `frontend`):
    ```bash
-   npm run test
+   cd frontend && npm run test
    ```
 
-On Vercel, set `NEXT_PUBLIC_API_URL` to your deployed API URL if the API is hosted separately; otherwise the app will call `/api/chat` on the same origin.
+**Vercel:** In your Vercel project settings, set **Root Directory** to `frontend` so the Next.js app is built and deployed. Set `NEXT_PUBLIC_API_URL` to your deployed API URL if the API is hosted separately.
 
 </details>
 

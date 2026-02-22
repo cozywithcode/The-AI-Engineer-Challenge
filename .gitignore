@@ -18,7 +18,7 @@ downloads/
 eggs/
 .eggs/
 lib/
-!lib/chat/
+!frontend/lib/chat/
 lib64/
 parts/
 sdist/
@@ -165,7 +165,7 @@ cython_debug/
 #.idea/
 .vercel
 
-# Next.js
-.next/
-node_modules/
-.env*.local
+# Next.js (frontend)
+frontend/.next/
+frontend/node_modules/
+frontend/.env*.local
