@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Forest atmosphere: subtle motion and depth */
+:root {
+  --forest-floor: #2d5016;
+  --forest-shadow: #1a3009;
+  --forest-moss: #4a7c23;
+  --forest-leaf: #6b8e23;
+  --forest-canopy: #228b22;
+  --forest-bark: #5d4e37;
+  --sunlight: #f4e4a6;
+  --dappled: #8fbc8f;
+  --fern: #3d5c2e;
+}
+
+body {
+  @apply antialiased;
+  background: linear-gradient(
+    180deg,
+    var(--forest-shadow) 0%,
+    var(--forest-floor) 20%,
+    var(--fern) 45%,
+    var(--forest-moss) 70%,
+    var(--forest-floor) 100%
+  );
+  min-height: 100vh;
+}
+
+/* Sun rays overlay (shown on submit) */
+.sun-rays-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: linear-gradient(
+    180deg,
+    rgba(244, 228, 166, 0) 0%,
+    rgba(244, 228, 166, 0.08) 15%,
+    rgba(244, 228, 166, 0.18) 30%,
+    rgba(244, 228, 166, 0.12) 50%,
+    rgba(244, 228, 166, 0.06) 70%,
+    rgba(244, 228, 166, 0) 100%
+  );
+  animation: sunRayFade 2s ease-out forwards;
+}
+
+@keyframes sunRayFade {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* Individual ray strips for “through the trees” effect */
+.ray {
+  position: absolute;
+  top: 0;
+  width: 12%;
+  min-width: 40px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(244, 228, 166, 0.35) 0%,
+    rgba(244, 228, 166, 0.15) 40%,
+    rgba(244, 228, 166, 0.02) 100%
+  );
+  transform-origin: top;
+  animation: sunRay 2s ease-out forwards;
+}
+
+@keyframes sunRay {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scaleY(1);
+  }
+}

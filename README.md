@@ -118,6 +118,43 @@ While it is a bit counter-intuitive to set things up before jumping into vibe-co
 </details>
 
 <details>
+  <summary>🌲 Running the Forest Chat Frontend (Next.js)</summary>
+
+The repo includes a Next.js chatbot UI with a peaceful forest theme. Messages are sent to your FastAPI backend at `POST /api/chat`.
+
+1. **Install frontend dependencies** (from project root):
+   ```bash
+   npm install
+   ```
+
+2. **Run the backend** (in one terminal):
+   ```bash
+   uv run uvicorn api.index:app --reload
+   ```
+   Backend runs at `http://localhost:8000`.
+
+3. **Run the frontend** (in another terminal):
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000).
+
+4. **Point the frontend at the backend** (when they run on different ports): create a `.env.local` in the project root with:
+   ```bash
+   NEXT_PUBLIC_API_URL=http://localhost:8000
+   ```
+   Restart `npm run dev` after adding or changing this.
+
+5. **Run tests**:
+   ```bash
+   npm run test
+   ```
+
+On Vercel, set `NEXT_PUBLIC_API_URL` to your deployed API URL if the API is hosted separately; otherwise the app will call `/api/chat` on the same origin.
+
+</details>
+
+<details>
   <summary>😎 Vibe Coding a Front End for the FastAPI Backend</summary>
 
 1. Use `Command-L` or `CTRL-L` to open the Cursor chat console. 
