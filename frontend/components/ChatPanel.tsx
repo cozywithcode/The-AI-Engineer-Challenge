@@ -3,9 +3,11 @@
 import { useCallback, useState } from "react";
 import { sendChatMessage } from "@/lib/chat";
 import type { ChatMessage } from "@/lib/chat";
+import { ForestScene } from "./ForestScene";
 import { SunRaysOverlay } from "./SunRaysOverlay";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { ChatInput } from "./ChatInput";
+import { SoundToggle } from "./SoundToggle";
 
 /** Generates a unique id; uses crypto.randomUUID in browser, fallback for test env. */
 function generateId(): string {
@@ -28,8 +30,8 @@ function createMessage(
 }
 
 /**
- * Main chat panel: message list, input, and sun-ray effect on submit.
- * Posts user messages to /api/chat and appends user + assistant replies.
+ * Main chat UI: full-bleed forest scene with glass panel, messages, input, and sound toggle.
+ * Posts user messages to /api/chat; triggers sun-ray burst on submit.
  */
 export function ChatPanel() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -44,8 +46,7 @@ export function ChatPanel() {
     setShowSunRays(true);
     setLoading(true);
 
-    // Hide sun rays after animation
-    const rayTimer = window.setTimeout(() => setShowSunRays(false), 2200);
+    const rayTimer = window.setTimeout(() => setShowSunRays(false), 2400);
 
     try {
       const reply = await sendChatMessage(text);
@@ -66,41 +67,59 @@ export function ChatPanel() {
   return (
     <>
       {showSunRays && <SunRaysOverlay />}
-      <div className="mx-auto flex h-full min-h-screen max-w-2xl flex-col px-4 py-8">
-        <header className="mb-6 text-center">
-          <h1 className="text-2xl font-semibold text-forest-sunlight drop-shadow-md md:text-3xl">
-            Forest Chat
-          </h1>
-          <p className="mt-1 text-sm text-forest-sunlight/80">
-            A peaceful place to talk — like sunlight through the trees.
-          </p>
-        </header>
+      <ForestScene>
+        {/* Sound toggle: top-right of viewport */}
+        <div className="absolute right-6 top-6 z-20">
+          <SoundToggle />
+        </div>
 
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto rounded-2xl bg-forest-shadow/40 p-4 border border-forest-leaf/20 min-h-[200px]">
-          {messages.length === 0 && (
-            <p className="py-8 text-center text-forest-sunlight/70">
-              Say something to start the conversation…
+        {/* Glass chat card: centered, desktop width */}
+        <div
+          className="glass-card flex w-full max-w-2xl flex-col rounded-3xl border border-forest-dappled/20 shadow-2xl"
+          style={{
+            backgroundColor: "var(--glass-bg)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            minHeight: "28rem",
+            maxHeight: "calc(100vh - 4rem)",
+          }}
+          data-testid="chat-panel"
+        >
+          <header className="shrink-0 border-b border-white/10 px-8 py-6 text-center">
+            <h1 className="text-2xl font-semibold tracking-tight text-forest-sunlight md:text-3xl">
+              Forest Chat
+            </h1>
+            <p className="mt-1.5 text-sm text-forest-sunlight/80">
+              A peaceful place to talk — sunlight through the trees.
+            </p>
+          </header>
+
+          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">
+            {messages.length === 0 && (
+              <p className="py-10 text-center font-medium text-forest-sunlight/70">
+                Say something to start the conversation…
+              </p>
+            )}
+            {messages.map((msg) => (
+              <ChatMessageBubble key={msg.id} message={msg} />
+            ))}
+          </div>
+
+          {error && (
+            <p
+              className="shrink-0 px-6 pb-2 text-sm text-amber-200/90"
+              role="alert"
+              data-testid="chat-error"
+            >
+              {error}
             </p>
           )}
-          {messages.map((msg) => (
-            <ChatMessageBubble key={msg.id} message={msg} />
-          ))}
-        </div>
 
-        {error && (
-          <p
-            className="mt-2 text-sm text-amber-200"
-            role="alert"
-            data-testid="chat-error"
-          >
-            {error}
-          </p>
-        )}
-
-        <div className="mt-4">
-          <ChatInput onSend={handleSend} disabled={loading} />
+          <div className="shrink-0 border-t border-white/10 px-6 py-4">
+            <ChatInput onSend={handleSend} disabled={loading} />
+          </div>
         </div>
-      </div>
+      </ForestScene>
     </>
   );
 }

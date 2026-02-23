@@ -7,8 +7,7 @@ interface ChatMessageBubbleProps {
 }
 
 /**
- * Single message bubble with forest-appropriate styling.
- * User messages: right-aligned, bark/moss tint. Assistant: left, dappled light tint.
+ * Single message bubble: glass-friendly, calm contrast. User right, assistant left.
  */
 export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
   const isUser = message.role === "user";
@@ -18,13 +17,13 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
       data-testid={`message-${message.role}-${message.id}`}
     >
       <div
-        className={`max-w-[85%] rounded-2xl px-4 py-3 shadow-lg ${
+        className={`max-w-[88%] rounded-2xl px-5 py-3.5 shadow-lg ${
           isUser
-            ? "bg-forest-bark/80 text-forest-sunlight"
-            : "bg-forest-dappled/30 text-forest-sunlight border border-forest-leaf/30"
+            ? "bg-forest-bark/75 text-forest-sunlight border border-forest-leaf/25"
+            : "bg-white/10 text-forest-sunlight-soft border border-white/15 backdrop-blur-sm"
         }`}
       >
-        <p className="whitespace-pre-wrap break-words text-sm leading-relaxed md:text-base">
+        <p className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">
           {message.content}
         </p>
       </div>

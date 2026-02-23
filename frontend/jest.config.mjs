@@ -17,6 +17,7 @@ const config = {
   modulePathIgnorePatterns: ["<rootDir>/.venv/"],
   collectCoverageFrom: [
     "lib/**/*.{ts,tsx}",
+    "hooks/**/*.{ts,tsx}",
     "components/**/*.{ts,tsx}",
     "app/**/*.{ts,tsx}",
     "!**/*.d.ts",

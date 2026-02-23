@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Forest atmosphere: subtle motion and depth */
+/* Cozy forest palette */
 :root {
   --forest-floor: #2d5016;
   --forest-shadow: #1a3009;
@@ -10,25 +10,61 @@
   --forest-leaf: #6b8e23;
   --forest-canopy: #228b22;
   --forest-bark: #5d4e37;
-  --sunlight: #f4e4a6;
+  --sunlight: #fcecb8;
+  --sunlight-soft: #fff8dc;
   --dappled: #8fbc8f;
   --fern: #3d5c2e;
+  --glass-bg: rgba(18, 38, 15, 0.72);
+  --glass-border: rgba(143, 188, 143, 0.18);
 }
 
 body {
   @apply antialiased;
-  background: linear-gradient(
-    180deg,
-    var(--forest-shadow) 0%,
-    var(--forest-floor) 20%,
-    var(--fern) 45%,
-    var(--forest-moss) 70%,
-    var(--forest-floor) 100%
-  );
   min-height: 100vh;
+  color: var(--sunlight);
 }
 
-/* Sun rays overlay (shown on submit) */
+/* Full-bleed scene owns its own background */
+.forest-scene {
+  background: transparent;
+}
+
+/* Persistent sun rays (always visible, calm) */
+.sun-rays-persistent {
+  position: absolute;
+  inset: 0;
+}
+
+.ray-persistent {
+  position: absolute;
+  top: 0;
+  width: 14%;
+  min-width: 48px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(252, 236, 184, 0.12) 0%,
+    rgba(252, 236, 184, 0.06) 35%,
+    rgba(252, 236, 184, 0.02) 70%,
+    transparent 100%
+  );
+  transform-origin: top;
+  animation: rayPersistent 8s ease-in-out infinite;
+}
+
+@keyframes rayPersistent {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.02);
+  }
+}
+
+/* Submit burst: stronger rays overlay */
 .sun-rays-overlay {
   pointer-events: none;
   position: fixed;
@@ -36,40 +72,39 @@ body {
   z-index: 50;
   background: linear-gradient(
     180deg,
-    rgba(244, 228, 166, 0) 0%,
-    rgba(244, 228, 166, 0.08) 15%,
-    rgba(244, 228, 166, 0.18) 30%,
-    rgba(244, 228, 166, 0.12) 50%,
-    rgba(244, 228, 166, 0.06) 70%,
-    rgba(244, 228, 166, 0) 100%
+    rgba(252, 236, 184, 0) 0%,
+    rgba(252, 236, 184, 0.12) 12%,
+    rgba(252, 236, 184, 0.28) 28%,
+    rgba(252, 236, 184, 0.18) 50%,
+    rgba(252, 236, 184, 0.08) 75%,
+    rgba(252, 236, 184, 0) 100%
   );
-  animation: sunRayFade 2s ease-out forwards;
+  animation: sunRayFade 2.2s ease-out forwards;
 }
 
 @keyframes sunRayFade {
   0% {
     opacity: 0;
   }
-  30% {
+  25% {
     opacity: 1;
   }
   100% {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 }
 
-/* Individual ray strips for “through the trees” effect */
 .ray {
   position: absolute;
   top: 0;
-  width: 12%;
-  min-width: 40px;
+  width: 13%;
+  min-width: 44px;
   height: 100%;
   background: linear-gradient(
     180deg,
-    rgba(244, 228, 166, 0.35) 0%,
-    rgba(244, 228, 166, 0.15) 40%,
-    rgba(244, 228, 166, 0.02) 100%
+    rgba(252, 236, 184, 0.42) 0%,
+    rgba(252, 236, 184, 0.2) 40%,
+    rgba(252, 236, 184, 0.04) 100%
   );
   transform-origin: top;
   animation: sunRay 2s ease-out forwards;
@@ -80,12 +115,12 @@ body {
     opacity: 0;
     transform: scaleY(0);
   }
-  50% {
+  45% {
     opacity: 1;
     transform: scaleY(1);
   }
   100% {
-    opacity: 0.7;
+    opacity: 0.75;
     transform: scaleY(1);
   }
 }
