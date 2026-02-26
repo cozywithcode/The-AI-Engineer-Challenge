@@ -169,3 +169,4 @@ cython_debug/
 frontend/.next/
 frontend/node_modules/
 frontend/.env*.local
+node_modules/
