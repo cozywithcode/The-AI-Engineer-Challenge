@@ -8,6 +8,7 @@ import { SunRaysOverlay } from "./SunRaysOverlay";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { ChatInput } from "./ChatInput";
 import { SoundToggle } from "./SoundToggle";
+import { LoadingMotes } from "./LoadingMotes";
 
 /** Generates a unique id; uses crypto.randomUUID in browser, fallback for test env. */
 function generateId(): string {
@@ -46,7 +47,7 @@ export function ChatPanel() {
     setShowSunRays(true);
     setLoading(true);
 
-    const rayTimer = window.setTimeout(() => setShowSunRays(false), 2400);
+    const rayTimer = window.setTimeout(() => setShowSunRays(false), 2800);
 
     try {
       const reply = await sendChatMessage(text);
@@ -67,7 +68,7 @@ export function ChatPanel() {
   return (
     <>
       {showSunRays && <SunRaysOverlay />}
-      <ForestScene>
+      <ForestScene burst={showSunRays}>
         {/* Sound toggle: top-right of viewport */}
         <div className="absolute right-6 top-6 z-20">
           <SoundToggle />
@@ -78,8 +79,8 @@ export function ChatPanel() {
           className="glass-card flex w-full max-w-2xl flex-col rounded-3xl border border-forest-dappled/20 shadow-2xl"
           style={{
             backgroundColor: "var(--glass-bg)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
             minHeight: "28rem",
             maxHeight: "calc(100vh - 4rem)",
           }}
@@ -103,6 +104,13 @@ export function ChatPanel() {
             {messages.map((msg) => (
               <ChatMessageBubble key={msg.id} message={msg} />
             ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="max-w-[88%] rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm">
+                  <LoadingMotes />
+                </div>
+              </div>
+            )}
           </div>
 
           {error && (

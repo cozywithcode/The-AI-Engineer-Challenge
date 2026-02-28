@@ -41,6 +41,34 @@ describe("ChatPanel", () => {
     );
   });
 
+  it("shows loading indicator while waiting for response", async () => {
+    let resolveReply!: (value: unknown) => void;
+    global.fetch = jest.fn().mockReturnValue(
+      new Promise((resolve) => {
+        resolveReply = resolve;
+      })
+    );
+
+    render(<ChatPanel />);
+    fireEvent.change(screen.getByTestId("chat-input"), {
+      target: { value: "hello" },
+    });
+    fireEvent.click(screen.getByTestId("chat-submit"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("loading-motes")).toBeInTheDocument();
+    });
+
+    resolveReply({
+      ok: true,
+      json: async () => ({ reply: "Hi!" }),
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("loading-motes")).not.toBeInTheDocument();
+    });
+  });
+
   it("shows error when API fails", async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
