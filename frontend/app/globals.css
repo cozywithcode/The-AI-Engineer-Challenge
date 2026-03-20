@@ -4,18 +4,18 @@
 @theme {
   --font-serif: Georgia, Cambria, "Times New Roman", serif;
 
-  /* Forest palette — warm, sunlit tones */
-  --color-forest-floor: #4a7a2e;
-  --color-forest-shadow: #2d5a1a;
-  --color-forest-moss: #6b9e3a;
-  --color-forest-leaf: #8aad3e;
-  --color-forest-canopy: #3da53d;
+  /* Komorebi palette — sunlight filtering through leaves */
+  --color-forest-floor: #4a6b38;
+  --color-forest-shadow: #2c4425;
+  --color-forest-moss: #6a8e4a;
+  --color-forest-leaf: #8aa55a;
+  --color-forest-canopy: #4a7a48;
   --color-forest-bark: #7a6548;
   --color-forest-sunlight: #fef3c7;
   --color-forest-sunlight-soft: #fffdf0;
-  --color-forest-dappled: #a8d8a0;
-  --color-forest-fern: #5a8040;
-  --color-forest-sun-gold: #fbbf24;
+  --color-forest-dappled: #a0c890;
+  --color-forest-fern: #587848;
+  --color-forest-sun-gold: #f5b833;
   --color-forest-sun-warm: #fde68a;
 
   --animate-leaf-shimmer: leafShimmer 5s ease-in-out infinite;
@@ -23,17 +23,17 @@
 
 /* ── CSS custom properties for glass effects ─────────────────────────── */
 :root {
-  --forest-floor: #4a7a2e;
-  --forest-shadow: #2d5a1a;
-  --forest-moss: #6b9e3a;
-  --forest-leaf: #8aad3e;
-  --forest-canopy: #3da53d;
+  --forest-floor: #4a6b38;
+  --forest-shadow: #2c4425;
+  --forest-moss: #6a8e4a;
+  --forest-leaf: #8aa55a;
+  --forest-canopy: #4a7a48;
   --forest-bark: #7a6548;
   --sunlight: #fef3c7;
   --sunlight-soft: #fffdf0;
-  --dappled: #a8d8a0;
-  --fern: #5a8040;
-  --glass-bg: rgba(12, 35, 10, 0.72);
+  --dappled: #a0c890;
+  --fern: #587848;
+  --glass-bg: rgba(12, 35, 10, 0.55);
   --glass-border: rgba(140, 200, 130, 0.18);
 }
 

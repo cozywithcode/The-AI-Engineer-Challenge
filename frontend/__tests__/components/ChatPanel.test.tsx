@@ -36,7 +36,9 @@ describe("ChatPanel", () => {
       "/api/chat",
       expect.objectContaining({
         method: "POST",
-        body: JSON.stringify({ message: "I need help" }),
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "I need help" }],
+        }),
       })
     );
   });

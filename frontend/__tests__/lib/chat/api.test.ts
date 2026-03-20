@@ -7,20 +7,41 @@ describe("sendChatMessage", () => {
     global.fetch = originalFetch;
   });
 
-  it("sends POST to /api/chat with message and returns reply", async () => {
+  it("sends POST to /api/chat with messages array and returns reply", async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ reply: "Hello back" }),
     });
 
-    const result = await sendChatMessage("Hello");
+    const messages = [{ role: "user" as const, content: "Hello" }];
+    const result = await sendChatMessage(messages);
     expect(result).toBe("Hello back");
     expect(fetch).toHaveBeenCalledWith(
       "/api/chat",
       expect.objectContaining({
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "Hello" }),
+        body: JSON.stringify({ messages }),
+      })
+    );
+  });
+
+  it("sends full conversation history", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ reply: "Got it" }),
+    });
+
+    const messages = [
+      { role: "user" as const, content: "Hi" },
+      { role: "assistant" as const, content: "Hello!" },
+      { role: "user" as const, content: "How are you?" },
+    ];
+    await sendChatMessage(messages);
+    expect(fetch).toHaveBeenCalledWith(
+      "/api/chat",
+      expect.objectContaining({
+        body: JSON.stringify({ messages }),
       })
     );
   });
@@ -33,7 +54,7 @@ describe("sendChatMessage", () => {
       json: async () => ({ reply: "Hi" }),
     });
 
-    await sendChatMessage("Hi");
+    await sendChatMessage([{ role: "user", content: "Hi" }]);
     expect(fetch).toHaveBeenCalledWith(
       "http://localhost:8000/api/chat",
       expect.any(Object)
@@ -48,7 +69,9 @@ describe("sendChatMessage", () => {
       text: async () => JSON.stringify({ detail: "GEMINI_API_KEY not configured" }),
     });
 
-    await expect(sendChatMessage("x")).rejects.toThrow("GEMINI_API_KEY not configured");
+    await expect(
+      sendChatMessage([{ role: "user", content: "x" }])
+    ).rejects.toThrow("GEMINI_API_KEY not configured");
   });
 
   it("throws with response text when detail is missing", async () => {
@@ -57,6 +80,8 @@ describe("sendChatMessage", () => {
       text: async () => "Server error",
     });
 
-    await expect(sendChatMessage("x")).rejects.toThrow("Server error");
+    await expect(
+      sendChatMessage([{ role: "user", content: "x" }])
+    ).rejects.toThrow("Server error");
   });
 });

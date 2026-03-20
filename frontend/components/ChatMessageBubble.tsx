@@ -35,11 +35,14 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
       <div
         className={`max-w-[88%] rounded-2xl px-5 py-3.5 shadow-lg ${
           isUser
-            ? "bg-forest-bark/75 text-forest-sunlight border border-forest-leaf/25"
-            : "bg-white/10 text-forest-sunlight-soft border border-white/15 backdrop-blur-sm"
+            ? "bg-[#614f3a]/75 text-forest-sunlight border border-forest-leaf/25"
+            : "bg-[#2f4529] text-forest-sunlight border border-white/15 backdrop-blur-sm"
         }`}
       >
-        <p className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">
+        <p
+          className={`whitespace-pre-wrap break-words leading-relaxed ${isUser ? "text-lg" : "text-[15px]"}`}
+          style={isUser ? { fontFamily: "var(--font-cormorant)" } : undefined}
+        >
           {message.content}
         </p>
       </div>

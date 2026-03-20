@@ -1,13 +1,14 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { sendChatMessage } from "@/lib/chat";
 import type { ChatMessage } from "@/lib/chat";
 import { ForestScene } from "./ForestScene";
 import { SunRaysOverlay } from "./SunRaysOverlay";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { ChatInput } from "./ChatInput";
-import { SoundToggle } from "./SoundToggle";
+import type { ChatInputHandle } from "./ChatInput";
+
 import { LoadingMotes } from "./LoadingMotes";
 
 /** Generates a unique id; uses crypto.randomUUID in browser, fallback for test env. */
@@ -39,6 +40,18 @@ export function ChatPanel() {
   const [loading, setLoading] = useState(false);
   const [showSunRays, setShowSunRays] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatInputRef = useRef<ChatInputHandle>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      requestAnimationFrame(() => chatInputRef.current?.focus());
+    }
+  }, [loading]);
 
   const handleSend = useCallback(async (text: string) => {
     setError(null);
@@ -50,7 +63,11 @@ export function ChatPanel() {
     const rayTimer = window.setTimeout(() => setShowSunRays(false), 2800);
 
     try {
-      const reply = await sendChatMessage(text);
+      const history = [...messages, userMessage].map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
+      const reply = await sendChatMessage(history);
       setMessages((prev) => [...prev, createMessage("assistant", reply)]);
     } catch (e) {
       const message = e instanceof Error ? e.message : "Something went wrong.";
@@ -63,17 +80,12 @@ export function ChatPanel() {
       clearTimeout(rayTimer);
       setLoading(false);
     }
-  }, []);
+  }, [messages]);
 
   return (
     <>
-      {showSunRays && <SunRaysOverlay />}
-      <ForestScene burst={showSunRays}>
-        {/* Sound toggle: top-right of viewport */}
-        <div className="absolute right-6 top-6 z-20">
-          <SoundToggle />
-        </div>
-
+      {false && <SunRaysOverlay />}
+      <ForestScene burst={false}>
         {/* Glass chat card: centered, desktop width */}
         <div
           className="glass-card flex w-full max-w-2xl flex-col rounded-3xl border border-forest-dappled/20 shadow-2xl"
@@ -87,18 +99,18 @@ export function ChatPanel() {
           data-testid="chat-panel"
         >
           <header className="shrink-0 border-b border-white/10 px-8 py-6 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight text-forest-sunlight md:text-3xl">
-              Forest Chat
+            <h1 className="text-4xl font-semibold tracking-tight text-forest-sunlight md:text-5xl" style={{ fontFamily: "var(--font-cormorant)" }}>
+              komorebi
             </h1>
             <p className="mt-1.5 text-sm text-forest-sunlight/80">
-              A peaceful place to talk — sunlight through the trees.
+              finding calm in the canopy
             </p>
           </header>
 
           <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">
             {messages.length === 0 && (
               <p className="py-10 text-center font-medium text-forest-sunlight/70">
-                Say something to start the conversation…
+                come rest here awhile...
               </p>
             )}
             {messages.map((msg) => (
@@ -111,6 +123,7 @@ export function ChatPanel() {
                 </div>
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
 
           {error && (
@@ -124,7 +137,7 @@ export function ChatPanel() {
           )}
 
           <div className="shrink-0 border-t border-white/10 px-6 py-4">
-            <ChatInput onSend={handleSend} disabled={loading} />
+            <ChatInput ref={chatInputRef} onSend={handleSend} disabled={loading} />
           </div>
         </div>
       </ForestScene>

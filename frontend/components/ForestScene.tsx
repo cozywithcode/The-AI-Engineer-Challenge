@@ -30,36 +30,23 @@ export function ForestScene({ children, burst = false }: ForestSceneProps) {
         style={{
           background: `
             linear-gradient(180deg,
-              #0b2e0d 0%,
-              #133f14 8%,
-              #1c5419 18%,
-              #256b1f 30%,
-              #2f7d26 42%,
-              #3a8e30 55%,
-              #479438 65%,
-              #4a8a32 75%,
-              #3d7528 85%,
-              #35662a 92%,
-              #2d5a24 100%
+              #0e1e0c 0%,
+              #162a14 8%,
+              #1f3820 18%,
+              #2a4628 30%,
+              #345532 42%,
+              #3d5f38 55%,
+              #46693f 65%,
+              #4a6d40 75%,
+              #3f5e36 85%,
+              #36522f 92%,
+              #2c4527 100%
             )
-          `,
+`,
         }}
       />
 
-      {/* Layer 0b: Sky peeking through the canopy — bright patches at top */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background: `
-            radial-gradient(ellipse 35% 18% at 20% 5%, rgba(180, 220, 255, 0.18) 0%, transparent 100%),
-            radial-gradient(ellipse 25% 14% at 55% 3%, rgba(200, 235, 255, 0.14) 0%, transparent 100%),
-            radial-gradient(ellipse 30% 16% at 80% 7%, rgba(170, 215, 250, 0.12) 0%, transparent 100%),
-            radial-gradient(ellipse 18% 10% at 40% 10%, rgba(190, 230, 255, 0.10) 0%, transparent 100%)
-          `,
-        }}
-      />
-
-      {/* Layer 0c: Sunlight pooling on the forest floor — warm patches at bottom */}
+      {/* Layer 0b: Sunlight pooling on the forest floor — warm patches at bottom */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
         style={{
@@ -87,33 +74,24 @@ export function ForestScene({ children, burst = false }: ForestSceneProps) {
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background: `
-            radial-gradient(circle 80px at 10% 12%, rgba(34, 120, 30, 0.25) 0%, transparent 100%),
-            radial-gradient(circle 100px at 30% 6%, rgba(28, 100, 25, 0.20) 0%, transparent 100%),
-            radial-gradient(circle 70px at 48% 14%, rgba(40, 130, 35, 0.22) 0%, transparent 100%),
-            radial-gradient(circle 90px at 65% 4%, rgba(30, 110, 28, 0.18) 0%, transparent 100%),
-            radial-gradient(circle 110px at 85% 10%, rgba(25, 95, 22, 0.24) 0%, transparent 100%),
-            radial-gradient(circle 60px at 22% 18%, rgba(45, 140, 40, 0.15) 0%, transparent 100%),
-            radial-gradient(circle 85px at 75% 16%, rgba(38, 125, 32, 0.20) 0%, transparent 100%)
+            radial-gradient(circle 80px at 10% 12%, rgba(42, 90, 38, 0.25) 0%, transparent 100%),
+            radial-gradient(circle 100px at 30% 6%, rgba(36, 78, 34, 0.20) 0%, transparent 100%),
+            radial-gradient(circle 70px at 48% 14%, rgba(48, 95, 42, 0.22) 0%, transparent 100%),
+            radial-gradient(circle 90px at 65% 4%, rgba(38, 82, 36, 0.18) 0%, transparent 100%),
+            radial-gradient(circle 110px at 85% 10%, rgba(32, 72, 30, 0.24) 0%, transparent 100%),
+            radial-gradient(circle 60px at 22% 18%, rgba(55, 100, 48, 0.15) 0%, transparent 100%),
+            radial-gradient(circle 85px at 75% 16%, rgba(46, 92, 40, 0.20) 0%, transparent 100%)
           `,
         }}
       />
 
-      {/* Layer 1: Vignette — darkened edges for depth and focus */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[1]"
-        style={{
-          boxShadow:
-            "inset 0 0 30vmin rgba(5, 15, 3, 0.35), inset 0 -10vh 20vh rgba(10, 25, 8, 0.20)",
-        }}
-      />
-
-      {/* ─── Animated layers (kept from previous) ─── */}
+      {/* ─── Animated layers ─── */}
 
       {/* Layer 2: Dappled light patches */}
-      <DappledLight />
+      {/* <DappledLight /> */}
 
       {/* Layer 3: Persistent sun rays */}
-      <div
+      {/* <div
         className="sun-rays-persistent pointer-events-none absolute inset-0 z-[3]"
         aria-hidden
       >
@@ -127,7 +105,7 @@ export function ForestScene({ children, burst = false }: ForestSceneProps) {
             }}
           />
         ))}
-      </div>
+      </div> */}
 
       {/* Layer 4: Falling leaves */}
       <FallingLeaves />

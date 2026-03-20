@@ -37,9 +37,9 @@ const LEAVES: Leaf[] = [
 ];
 
 const LAYER_OPACITY: Record<string, number> = {
-  back: 0.4,
-  mid: 0.6,
-  front: 0.8,
+  back: 0.3,
+  mid: 0.45,
+  front: 0.6,
 };
 
 export function FallingLeaves() {
@@ -60,7 +60,7 @@ export function FallingLeaves() {
             opacity: LAYER_OPACITY[leaf.layer],
             animationDelay: `${leaf.delay}s`,
             animationDuration: `${leaf.duration}s`,
-            backgroundColor: `hsl(${105 + leaf.hue}, 55%, ${leaf.layer === "front" ? 45 : 35}%)`,
+            backgroundColor: `hsl(${95 + leaf.hue}, 30%, ${leaf.layer === "front" ? 32 : 25}%)`,
             borderRadius: "50% 0 50% 0",
           }}
         />

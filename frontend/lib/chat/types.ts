@@ -4,7 +4,7 @@
  */
 
 export interface ChatRequest {
-  message: string;
+  messages: { role: "user" | "assistant"; content: string }[];
 }
 
 export interface ChatResponse {

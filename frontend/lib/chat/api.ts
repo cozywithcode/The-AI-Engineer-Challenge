@@ -13,13 +13,15 @@ const getBaseUrl = (): string => {
 };
 
 /**
- * Sends a user message to the chat API and returns the assistant reply.
+ * Sends the full conversation history to the chat API and returns the assistant reply.
  * @throws Error with message if the request fails (network or API error).
  */
-export async function sendChatMessage(message: string): Promise<string> {
+export async function sendChatMessage(
+  messages: { role: "user" | "assistant"; content: string }[]
+): Promise<string> {
   const base = getBaseUrl();
   const url = `${base}/api/chat`;
-  const body: ChatRequest = { message };
+  const body: ChatRequest = { messages };
 
   const res = await fetch(url, {
     method: "POST",
