@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond } from "next/font/google";
+import { Providers } from "@/components/Providers";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`min-h-screen bg-[#0e1e0c] font-serif text-forest-sunlight/95 ${cormorant.variable}`}>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
